@@ -1,11 +1,16 @@
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import spacy
+import logging
 import json
 
 app = FastAPI()
 # Load spaCy model for semantic analysis
 nlp = spacy.load("en_core_web_sm")
+
+# Configure spaCy to use Python's logging system
+logger = logging.getLogger("spacy")
+logger.setLevel(logging.INFO)  # Set the logging level to capture INFO and abov
 
 # Sample machine learning models
 def model_1(query):

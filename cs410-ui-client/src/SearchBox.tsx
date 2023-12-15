@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { make_get } from './lib/api';
+import { make_get, make_post } from './lib/api';
 
 const SearchBox = () => {
     const [inputValue, setInputValue] = useState('');
-    const [buttonPressed, setButtonPressed] = useState(false);
+    const [queryGetSentButton, setQueryGetSentButton] = useState(false);
+    const [queryPostSentButton, setQueryPostSentButton] = useState(false);
 
     // Function to handle the change event
     const handleChange = (event: any) => {
@@ -19,16 +20,29 @@ const SearchBox = () => {
     };
 
     useEffect(() => {
-        if (buttonPressed) {
+        if (queryGetSentButton) {
             make_get();
         }
-        setButtonPressed(false);
-    }, [buttonPressed]);
+        setQueryGetSentButton(false);
+    }, [queryGetSentButton]);
 
-    const handleButtonClick = () => {
+    useEffect(() => {
+        if (queryPostSentButton) {
+            make_post(inputValue);
+        }
+        setQueryPostSentButton(false);
+    }, [queryPostSentButton]);
+
+    const handleGetButton = () => {
         // Update the buttonPressed state when the button is pressed
-        console.log("SearchBox | handleButtonClick");
-        setButtonPressed(true);
+        console.log("SearchBox | handleGetButtonClick");
+        setQueryGetSentButton(true);
+    };
+
+    const handlePostButton = () => {
+        // Update the buttonPressed state when the button is pressed
+        console.log("SearchBox | handlePostButtonClick");
+        setQueryPostSentButton(true);
     };
 
     return (
@@ -40,7 +54,8 @@ const SearchBox = () => {
                 placeholder="Search..."
             />
             <br/>
-            <button type="submit" onClick={handleButtonClick}>Search</button>
+            <button onClick={handleGetButton}>Search Get Test</button>
+            <button onClick={handlePostButton}>Search Post Test</button>
         </form>
     );
 };

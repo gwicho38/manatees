@@ -16,3 +16,17 @@ export const make_get = async () => {
     }
   };
   
+export const make_post = async(query: string) => {
+    try {
+        const response = await axios.post('http://localhost:8000/classify_query', { query });
+  
+        if (response.data && response.data.classification) {
+          return response.data.classification;
+        } else {
+          return 'unclassified';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        return 'unclassified error';
+      }
+}
