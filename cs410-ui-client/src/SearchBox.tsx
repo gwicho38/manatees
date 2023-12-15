@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { make_get } from './lib/api';
 
 const SearchBox = () => {
     const [inputValue, setInputValue] = useState('');
+    const [buttonPressed, setButtonPressed] = useState(false);
 
     // Function to handle the change event
     const handleChange = (event: any) => {
@@ -15,6 +18,19 @@ const SearchBox = () => {
         console.log('Search Term:', inputValue);
     };
 
+    useEffect(() => {
+        if (buttonPressed) {
+            make_get();
+        }
+        setButtonPressed(false);
+    }, [buttonPressed]);
+
+    const handleButtonClick = () => {
+        // Update the buttonPressed state when the button is pressed
+        console.log("SearchBox | handleButtonClick");
+        setButtonPressed(true);
+    };
+
     return (
         <form onSubmit={handleSubmit}>
             <input
@@ -24,7 +40,7 @@ const SearchBox = () => {
                 placeholder="Search..."
             />
             <br/>
-            <button type="submit">Search</button>
+            <button type="submit" onClick={handleButtonClick}>Search</button>
         </form>
     );
 };

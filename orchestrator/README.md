@@ -1,6 +1,10 @@
 # orchestrator
 
-A short description of the project
+Query orchestrator.
+
+## Dev Server Init
+
+uvicorn app.main:app --reload  
 
 ## Development Requirements
 

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -7,6 +8,18 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
+# Configure CORS settings
+origins = ["*"]  # Replace "*" with the specific origin(s) you want to allow
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # You can specify HTTP methods you want to allow
+    allow_headers=["*"],  # You can specify HTTP headers you want to allow
+)
+
+@app.get("/print_request")
 @app.post("/print_request")
 async def print_request(request: Request):
     """
