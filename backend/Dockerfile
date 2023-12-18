@@ -1,21 +1,20 @@
-FROM python:3.12.0
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-ENV PYTHONUNBUFFERED 1
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-WORKDIR /app
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
 
-COPY poetry.lock pyproject.toml ./
-RUN pip install --upgrade pip && \
-    pip install poetry && \
-    poetry config virtualenvs.create false 
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-ARG DEV=false
-RUN if [ "$DEV" = "true" ] ; then poetry install --with dev ; else poetry install --only main ; fi
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
-COPY ./app/ ./
-COPY ./ml/model/ ./ml/model/
+# Define environment variable
+ENV NAME ManateesBackend
 
-ENV PYTHONPATH "${PYTHONPATH}:/app"
-
-EXPOSE 8080
-CMD uvicorn main:app --host 0.0.0.0 --port 8080
+# Run app.py when the container launches
+CMD ["python", "app.py"]
