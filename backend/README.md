@@ -1,135 +1,37 @@
-# orchestrator
+1. **Prerequisites**
+   - Ensure Python 3.9 or higher is installed on your system. You can download it from the [Python official website](https://www.python.org/).
+   - Install Poetry, a tool for dependency management and packaging in Python. You can find installation instructions on the [Poetry official website](https://python-poetry.org/docs/).
 
-Query orchestrator.
+2. **Install Poetry**
+   - To install Poetry, use the following command:
+     ```bash
+     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+     ```
+     For Windows, use PowerShell:
+     ```powershell
+     (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+     ```
+   - After installation, restart your terminal to ensure the `poetry` command is recognized.
+   - Verify the installation by running:
+     ```bash
+     poetry --version
+     ```
 
-## Dev Server Init
+3. **Clone the Repository**
+   - Clone the Manatees project repository to your local machine.
+     ```bash
+     git clone https://github.com/gwicho38/manatees.git
+     cd manatees/backend  # Navigate to the backend directory
+     ```
 
-uvicorn app.main:app --reload  
+4. **Install Dependencies with Poetry**
+   - Inside the backend directory, use Poetry to install the project dependencies.
+     ```bash
+     poetry install
+     ```
 
-## Development Requirements
-
-- Python3.11.0
-- Pip
-- Poetry (Python Package Manager)
-
-### M.L Model Environment
-
-```sh
-MODEL_PATH=./ml/model/
-MODEL_NAME=model.pkl
-```
-
-### Update `/predict`
-
-To update your machine learning model, add your `load` and `method` [change here](app/api/routes/predictor.py#L19) at `predictor.py`
-
-## Installation
-
-```sh
-python -m venv venv
-source venv/bin/activate
-make install
-```
-
-## Runnning Localhost
-
-`make run`
-
-## Deploy app
-
-`make deploy`
-
-## Running Tests
-
-`make test`
-
-## Access Swagger Documentation
-
-> <http://localhost:8080/docs>
-
-## Access Redocs Documentation
-
-> <http://localhost:8080/redoc>
-
-## Project structure
-
-Files related to application are in the `app` or `tests` directories.
-Application parts are:
-
-    app
-    |
-    | # Fast-API stuff
-    ├── api                 - web related stuff.
-    │   └── routes          - web routes.
-    ├── core                - application configuration, startup events, logging.
-    ├── models              - pydantic models for this application.
-    ├── services            - logic that is not just crud related.
-    ├── main-aws-lambda.py  - [Optional] FastAPI application for AWS Lambda creation and configuration.
-    └── main.py             - FastAPI application creation and configuration.
-    |
-    | # ML stuff
-    ├── data             - where you persist data locally
-    │   ├── interim      - intermediate data that has been transformed.
-    │   ├── processed    - the final, canonical data sets for modeling.
-    │   └── raw          - the original, immutable data dump.
-    │
-    ├── notebooks        - Jupyter notebooks. Naming convention is a number (for ordering),
-    |
-    ├── ml               - modelling source code for use in this project.
-    │   ├── __init__.py  - makes ml a Python module
-    │   ├── pipeline.py  - scripts to orchestrate the whole pipeline
-    │   │
-    │   ├── data         - scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features     - scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   └── model        - scripts to train models and make predictions
-    │       ├── predict_model.py
-    │       └── train_model.py
-    │
-    └── tests            - pytest
-
-## GCP
-Deploying inference service to Cloud Run
-
-### Authenticate
-
-1. Install `gcloud` cli
-2. `gcloud auth login`
-3. `gcloud config set project <PROJECT_ID>`
-
-### Enable APIs
-
-1. Cloud Run API
-2. Cloud Build API
-3. IAM API
-
-### Deploy to Cloud Run
-
-1. Run `gcp-deploy.sh`
-
-### Clean up
-
-1. Delete Cloud Run
-2. Delete Docker image in GCR
-
-## AWS
-Deploying inference service to AWS Lambda
-
-### Authenticate
-
-1. Install `awscli` and `sam-cli`
-2. `aws configure`
-
-### Deploy to Lambda
-
-1. Run `sam build`
-2. Run `sam deploy --guiChange this portion for other types of models
-## Add the correct type hinting when completed
-
-`aws cloudformation delete-stack --stack-name <STACK_NAME_ON_CREATION>`
-
-
-Made by https://github.com/arthurhenrique/cookiecutter-fastapi/graphs/contributors with ❤️
+5. **Run the Python Backend in Development Mode**
+   - Start the Python backend using Uvicorn, an ASGI server, in development mode with live reload.
+     ```bash
+     poetry run uvicorn app.main:app --reload
+     ```
